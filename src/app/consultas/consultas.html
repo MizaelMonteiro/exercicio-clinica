@@ -1,0 +1,62 @@
+<h1>Clínica Médica</h1>
+
+<h2>Cadastro de Consultas</h2>
+
+<form [formGroup]="formulario" (ngSubmit)="cadastrarConsulta()">
+
+    <label>Nome do paciente:</label>
+    <input type="text" formControlName="nomePaciente">
+
+    @if (formulario.get('nomePaciente')?.touched && formulario.get('nomePaciente')?.invalid) {
+    <span>Nome obrigatório.</span>
+    }
+
+    <br><br>
+
+    <label>Preço da consulta:</label>
+    <input type="number" formControlName="preco" min="0.01">
+
+    @if (formulario.get('preco')?.touched && formulario.get('preco')?.invalid) {
+    <span>Informe um preço maior que zero.</span>
+    }
+
+    <br><br>
+
+    <label>Data da consulta:</label>
+    <input type="date" formControlName="data">
+
+    @if (formulario.get('data')?.touched && formulario.get('data')?.invalid) {
+    <span>Informe a data.</span>
+    }
+
+    <br><br>
+
+    <button type="submit">Cadastrar</button>
+
+</form>
+
+<hr>
+
+<h2>Consultas cadastradas</h2>
+
+@if (consultas.length > 0) {
+<table>
+    <tr>
+        <th>Paciente</th>
+        <th>Preço</th>
+        <th>Data</th>
+    </tr>
+
+    @for (consulta of consultas; track $index) {
+    <tr>
+        <td>{{ consulta.nomePaciente }}</td>
+        <td>{{ consulta.preco | currency:'BRL' }}</td>
+        <td>{{ consulta.data | date:'dd/MM/yyyy' }}</td>
+    </tr>
+    }
+</table>
+} @else {
+<p>Nenhuma consulta cadastrada.</p>
+}
+
+<h3>Valor total: {{ total | currency:'BRL' }}</h3>
